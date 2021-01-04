@@ -64,36 +64,72 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
     guides(fill=guide_legend("Sports")) +
     ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/ratioMedalParticipants.pdf")
 
+
+    
   
-  #--------- What are the ages in top sports for the women and the ages ? ----------#
+#--------- What are the ages in top sports for the women and men ? ----------#
   
-  #men mean age:
-  topFiveM<- filter(filter(WinterOGDataSet80, Sport %in% topFive$x), Sex == "M")
-  groupby <- topFiveM %>%  #group by sports
-    group_by(Sport) %>%
-    select(Age)
-  meanAgesM <- ddply(na.omit(groupby), .(Sport), summarise, mean = mean(Age))
+    #men mean age:
+    topFiveM<- filter(filter(WinterOGDataSet80, Sport %in% topFive$x), Sex == "M")
+    groupby <- topFiveM %>%  #group by sports
+      group_by(Sport) %>%
+      select(Age)
+    meanAgesM <- ddply(na.omit(groupby), .(Sport), summarise, mean = mean(Age))
+    
+    ggplot(meanAgesM, aes(x = Sport, y = mean, fill = Sport, label = round(mean))) + 
+      geom_histogram(stat = "identity") +
+      xlab("Sports") +
+      ylab("% mean age") +
+      guides(fill=guide_legend("Sports")) +
+      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesM.pdf")
+    
+    #women mean age:
+    topFiveF<- filter(filter(WinterOGDataSet80, Sport %in% topFive$x), Sex == "F")
+    groupby <- topFiveF %>%  #group by sports
+      group_by(Sport) %>%
+      select(Age)
+    meanAgesF <- ddply(na.omit(groupby), .(Sport), summarise, mean = mean(Age))
+    
+    ggplot(meanAgesF, aes(x = Sport, y = mean, fill = Sport, label = round(mean))) + 
+      geom_histogram(stat = "identity") +
+      xlab("Sports") +
+      ylab("% mean age") +
+      guides(fill=guide_legend("Sports")) +
+      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesF.pdf")
   
-  ggplot(meanAgesM, aes(x = Sport, y = mean, fill = Sport, label = round(mean))) + 
-    geom_histogram(stat = "identity") +
-    xlab("Sports") +
-    ylab("% medals/participants") +
-    guides(fill=guide_legend("Sports")) +
-    ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesM.pdf")
   
-  #women mean age:
-  topFiveF<- filter(filter(WinterOGDataSet80, Sport %in% topFive$x), Sex == "F")
-  groupby <- topFiveF %>%  #group by sports
-    group_by(Sport) %>%
-    select(Age)
-  meanAgesF <- ddply(na.omit(groupby), .(Sport), summarise, mean = mean(Age))
-  
-  ggplot(meanAgesF, aes(x = Sport, y = mean, fill = Sport, label = round(mean))) + 
-    geom_histogram(stat = "identity") +
-    xlab("Sports") +
-    ylab("% medals/participants") +
-    guides(fill=guide_legend("Sports")) +
-    ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesF.pdf")
-  
+    #--------- women/men participant evolution by year ----------#
+    
+    #Number of participants for each sport
+    ParticipantsT <- count(filter(WinterOGDataSet80, (Sex == 'F'||Sex == 'M'))$Year) #Total Participants by Year
+    #number of woman by year
+    Women<-count(filter(WinterOGDataSet80, Sex == 'F')$Year)
+    #percentages
+    percent_Woman <- (Women$freq/ParticipantsT$freq)*100 
+    # bind the percentages and the years (percentage by years)
+    WomanPart <- cbind(ParticipantsT, percent_Woman) 
+    
+    men<-count(filter(WinterOGDataSet80, Sex == 'M')$Year)
+    #percentages
+    percent_man <- (men$freq/ParticipantsT$freq)*100 
+    # bind the percentages and the years (percentage by years)
+    manPart <- cbind(ParticipantsT, percent_man) 
+    
+    plot<- list()
+    
+    p <- ggplot(data = WomanPart, aes(x = x, y = percent_Woman, color=percent_Woman, group = 1)) 
+    p2 <- ggplot(data = manPart, aes(x = x, y = percent_man,color=percent_man ,group = 1)) 
+    # Line plot basique avec des points
+    
+    
+    plot[[1]] <- p + geom_line() + geom_point()  + xlab("Year") + ylab("Woman Percentage")
+    plot[[2]] <-  p2 + geom_line() + geom_point()  + xlab("Year") + ylab("man Percentage")
+    
+    
+    
+    figure <- ggarrange(plot[[1]], plot[[2]],
+                        ncol = 2, nrow = 2)
+    
+    figure
   
   
