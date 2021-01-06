@@ -37,7 +37,7 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
     xlab("Sports") +
     ylab("number of medals") +
     guides(fill=guide_legend("Sports")) +
-    ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/medalsWinter.pdf")
+    ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/medalsWinter.png")
 
 
 
@@ -62,7 +62,7 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
     xlab("Sports") +
     ylab("% medals/participants") +
     guides(fill=guide_legend("Sports")) +
-    ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/ratioMedalParticipantsWinter.pdf")
+    ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/ratioMedalParticipantsWinter.png")
 
 
     
@@ -80,9 +80,9 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
       geom_bar(width = 3, stat = "identity") +
       coord_polar("y", start=0) +
       xlab("Sports") +
-      ylab("% mean age men") +
+      ylab("mean age men") +
       guides(fill=guide_legend("Sports")) +
-      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesMWinter.pdf")
+      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesMWinter.png")
     
     #women mean age:
     topFiveF<- filter(filter(WinterOGDataSet80, Sport %in% topFive$x), Sex == "F")
@@ -97,7 +97,7 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
       xlab("Sports") +
       ylab("mean age women") +
       guides(fill=guide_legend("Sports")) +
-      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesFWinter.pdf")
+      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesFWinter.png")
   
   
     #--------- women/men participant evolution by year ----------#
@@ -132,7 +132,7 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
     
     figure <- ggarrange(plot[[1]], plot[[2]],
                         ncol = 1, nrow = 3)
-    ggsave(file="/Users/abdelmahraye/Documents/BigData/plots/Women_menWinter.pdf",figure)
+    ggsave(file="/Users/abdelmahraye/Documents/BigData/plots/Women_menWinter.png",figure)
 
     
     
@@ -158,7 +158,7 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
       xlab("Sports") +
       ylab("number of medals") +
       guides(fill=guide_legend("Sports")) +
-      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/medalsSummer.pdf")
+      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/medalsSummer.png")
     
     
     
@@ -183,7 +183,7 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
       xlab("Sports") +
       ylab("% medals/participants") +
       guides(fill=guide_legend("Sports")) +
-      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/ratioMedalParticipantsSummer.pdf")
+      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/ratioMedalParticipantsSummer.png")
     
     
     
@@ -201,9 +201,9 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
       geom_bar(width = 3, stat = "identity") +
       coord_polar("y", start=0) +
       xlab("Sports") +
-      ylab("% mean age men") +
+      ylab("mean age men") +
       guides(fill=guide_legend("Sports")) +
-      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesMSummer.pdf")
+      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesMSummer.png")
     
     #women mean age:
     topFiveF<- filter(filter(SummerDataSet80, Sport %in% topFiveSummer$x), Sex == "F")
@@ -218,7 +218,7 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
       xlab("Sports") +
       ylab("mean age women") +
       guides(fill=guide_legend("Sports")) +
-      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesFSummer.pdf")
+      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesFSummer.png")
     
     
     #--------- women/men participant evolution by year ----------#
@@ -253,6 +253,6 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
     
     figure <- ggarrange(plot[[1]], plot[[2]],
                         ncol = 1, nrow = 3)
-    ggsave(file="/Users/abdelmahraye/Documents/BigData/plots/Women_menSummer.pdf",figure)
+    ggsave(file="/Users/abdelmahraye/Documents/BigData/plots/Women_menSummer.png",figure)
     
   
