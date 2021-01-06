@@ -54,7 +54,7 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
   bind <- cbind(Participants, percent_medal) 
   print(bind)
   # top five
-  topFive <- arrange(bind, -df$percent_medal)[1:5,] 
+  topFive <- arrange(bind, -bind$percent_medal)[1:5,] 
   
   
   ggplot(topFive, aes(x = x, y = percent_medal, fill = x, label = round(percent_medal))) + 
@@ -143,47 +143,47 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
 #-------Summer Olympic Games--------------#
     
     
-    # Get the Winter Olympic Games from 1980 to nowadays
+    # Get the Summer Olympic Games from 1980 to nowadays
     SummerOGs <- dplyr::filter(MyDataSetOG,  Season == "Summer")
-    SummerDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
+    SummerDataSet80 <- dplyr::filter(SummerOGs, Year >= 1980)
     
     
     #----------Find the 5 sport which got the more medals--------------------------------------------------------#
     #number of medals by sports
-    Medals<- count(filter(SummerDataSet80, Medal != 'NA')$Sport)
+    MedalsSummer<- count(filter(SummerDataSet80, Medal != 'NA')$Sport)
     
     # plotting the medals by sports
-    ggplot(Medals, aes(x = x, y = freq, fill = x, label = round(freq))) + 
+    ggplot(MedalsSummer, aes(x = x, y = freq, fill = x, label = round(freq))) + 
       geom_histogram(stat = "identity") +
       xlab("Sports") +
       ylab("number of medals") +
       guides(fill=guide_legend("Sports")) +
-      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/medalsWinter.pdf")
+      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/medalsSummer.pdf")
     
     
     
     
-    #--------- Calculation  medals/ participants ratio (are the number of medals influented by the number of participants ?) ----------#
+    #--------- Calculation  medals/ participants ratio (are the number of medals influenced by the number of participants ?) ----------#
     #Number of participants for each sport
-    Participants <- count(WinterOGDataSet80$Sport)
+    Participants <- count(SummerDataSet80$Sport)
     #number of medals by sports
-    Medals<- count(filter(WinterOGDataSet80, Medal != 'NA')$Sport)
+    MedalsSummer<- count(filter(SummerDataSet80, Medal != 'NA')$Sport)
     #Ratio medals/participant
-    percent_medal <- (Medals$freq/Participants$freq)*100 
+    percent_medal <- (MedalsSummer$freq/Participants$freq)*100 
     print(percent_medal)
     # bind the percentages and the sports (percentage by sports)
-    bind <- cbind(Participants, percent_medal) 
+    bindSummer <- cbind(Participants, percent_medal) 
     print(bind)
     # top five
-    topFive <- arrange(bind, -df$percent_medal)[1:5,] 
+    topFiveSummer <- arrange(bindSummer, -bindSummer$percent_medal)[1:5,] 
     
     
-    ggplot(topFive, aes(x = x, y = percent_medal, fill = x, label = round(percent_medal))) + 
+    ggplot(topFiveSummer, aes(x = x, y = percent_medal, fill = x, label = round(percent_medal))) + 
       geom_histogram(stat = "identity") +
       xlab("Sports") +
       ylab("% medals/participants") +
       guides(fill=guide_legend("Sports")) +
-      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/ratioMedalParticipantsWinter.pdf")
+      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/ratioMedalParticipantsSummer.pdf")
     
     
     
@@ -191,7 +191,7 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
     #--------- What are the ages in top sports for the women and men ? ----------#
     
     #men mean age:
-    topFiveM<- filter(filter(WinterOGDataSet80, Sport %in% topFive$x), Sex == "M")
+    topFiveM<- filter(filter(SummerDataSet80, Sport %in% topFiveSummer$x), Sex == "M")
     groupby <- topFiveM %>%  #group by sports
       group_by(Sport) %>%
       select(Age)
@@ -203,10 +203,10 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
       xlab("Sports") +
       ylab("% mean age men") +
       guides(fill=guide_legend("Sports")) +
-      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesMWinter.pdf")
+      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesMSummer.pdf")
     
     #women mean age:
-    topFiveF<- filter(filter(WinterOGDataSet80, Sport %in% topFive$x), Sex == "F")
+    topFiveF<- filter(filter(SummerDataSet80, Sport %in% topFiveSummer$x), Sex == "F")
     groupby <- topFiveF %>%  #group by sports
       group_by(Sport) %>%
       select(Age)
@@ -218,21 +218,21 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
       xlab("Sports") +
       ylab("mean age women") +
       guides(fill=guide_legend("Sports")) +
-      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesFWinter.pdf")
+      ggsave(filename = "/Users/abdelmahraye/Documents/BigData/plots/AgesFSummer.pdf")
     
     
     #--------- women/men participant evolution by year ----------#
     
     #Number of participants for each sport
-    ParticipantsT <- count(filter(WinterOGDataSet80, (Sex == 'F'||Sex == 'M'))$Year) #Total Participants by Year
+    ParticipantsT <- count(filter(SummerDataSet80, (Sex == 'F'||Sex == 'M'))$Year) #Total Participants by Year
     #number of woman by year
-    Women<-count(filter(WinterOGDataSet80, Sex == 'F')$Year)
+    Women<-count(filter(SummerDataSet80, Sex == 'F')$Year)
     #percentages
     percent_Woman <- (Women$freq/ParticipantsT$freq)*100 
     # bind the percentages and the years (percentage by years)
     WomanPart <- cbind(ParticipantsT, percent_Woman) 
     
-    men<-count(filter(WinterOGDataSet80, Sex == 'M')$Year)
+    men<-count(filter(SummerDataSet80, Sex == 'M')$Year)
     #percentages
     percent_man <- (men$freq/ParticipantsT$freq)*100 
     # bind the percentages and the years (percentage by years)
@@ -253,6 +253,6 @@ WinterOGDataSet80 <- dplyr::filter(WinterOGs, Year >= 1980)
     
     figure <- ggarrange(plot[[1]], plot[[2]],
                         ncol = 1, nrow = 3)
-    ggsave(file="/Users/abdelmahraye/Documents/BigData/plots/Women_menWinter.pdf",figure)
+    ggsave(file="/Users/abdelmahraye/Documents/BigData/plots/Women_menSummer.pdf",figure)
     
   
